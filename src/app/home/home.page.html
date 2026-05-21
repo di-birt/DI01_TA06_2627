@@ -1,6 +1,7 @@
 <!--
-  TAREA TA05 – HomePage
-  Implementa los TODOs siguiendo los apartados indicados en la teoría.
+  TAREA TA06 – HomePage
+  Formulario dinámico: los campos se definen en el array "campos" del componente.
+  El HTML no sabe cuántos ni qué campos hay; solo itera con @for.
 -->
 
 <ion-header [translucent]="true">
@@ -13,57 +14,49 @@
 
 <ion-content [fullscreen]="true">
 
-  <!-- ===== TODO TA05 – Formulario reactivo ===================================
-       [formGroup] enlaza el <form> con el FormGroup definido en el componente.
-       (ngSubmit) se dispara al pulsar el botón de tipo "submit".
-       formControlName enlaza cada ion-input con su FormControl correspondiente.
+  <!-- ===== TODO TA06 – Formulario DINÁMICO ====================================
+       Los campos se generan con @for a partir del array "campos" del componente.
+
+       DIFERENCIA CON UN FORMULARIO ESTÁTICO:
+         Estático  →  cada <ion-item> y <ion-input> está codificado a mano en el HTML,
+                      uno por cada campo (nombre, descripcion, categoria...).
+         Dinámico  →  un solo bloque @for recorre "campos" y genera todos los inputs.
+                      Para añadir un campo nuevo solo hay que añadir un objeto al array
+                      en el TypeScript; este HTML no hay que tocarlo.
   =========================================================================== -->
   <ion-card class="form-compacto">
     <ion-card-header>
-      <ion-card-title>Formulario para añadir un elemento</ion-card-title>
+      <ion-card-title>Añadir elemento (formulario dinámico)</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      <!-- Añadimos [formGroup] al formulario y le asignamos nuestro FormGroup -->
-      <form [formGroup]="formularioElemento" (ngSubmit)="agregarElemento()">
+      <form [formGroup]="formularioDinamico" (ngSubmit)="onSubmitDinamico()">
 
-        <!-- TODO TA05: formControlName="nombre" enlaza este input con
-             el FormControl "nombre" del FormGroup.
-             Al escribir, el FormControl se actualiza automáticamente. -->
-        <ion-item>
-          <ion-label position="stacked">Nombre *</ion-label>
-          <ion-input formControlName="nombre" placeholder="Nombre del elemento"></ion-input>
-        </ion-item>
-        @if (formularioElemento.get('nombre')?.invalid && formularioElemento.get('nombre')?.touched) {
-          @if (formularioElemento.get('nombre')?.errors?.['required']) {
-            <ion-label color="danger" class="error-obligatorio">El nombre es obligatorio.</ion-label>
-          }
-          @if (formularioElemento.get('nombre')?.errors?.['minlength']) {
-            <ion-label color="danger" class="error-obligatorio">Mínimo 3 caracteres.</ion-label>
-          }
-        }
+        <!-- TODO TA06: @for recorre "campos" y genera un ion-item por cada entrada.
+             track campo.name garantiza la eficiencia en el renderizado. -->
+        @for (campo of campos; track campo.name) {
+          <ion-item>
+            <ion-label position="stacked">{{ campo.label }}</ion-label>
+            <ion-input
+              [formControlName]="campo.name"
+              [type]="campo.type"
+              [placeholder]="campo.label">
+            </ion-input>
+          </ion-item>
 
-        <!-- TODO TA05: igual para "descripcion" -->
-        <ion-item>
-          <ion-label position="stacked">Descripción *</ion-label>
-          <ion-input formControlName="descripcion" placeholder="Descripción breve"></ion-input>
-        </ion-item>
-        @if (formularioElemento.get('descripcion')?.invalid && formularioElemento.get('descripcion')?.touched) {
-          @if (formularioElemento.get('descripcion')?.errors?.['required']) {
-            <ion-label color="danger" class="error-obligatorio">La descripción es obligatoria.</ion-label>
-          }
-          @if (formularioElemento.get('descripcion')?.errors?.['minlength']) {
-            <ion-label color="danger" class="error-obligatorio">Mínimo 5 caracteres.</ion-label>
+          <!-- Errores genéricos para cada campo: sirven para cualquier campo del array -->
+          @if (formularioDinamico.get(campo.name)?.invalid && formularioDinamico.get(campo.name)?.touched) {
+            @if (formularioDinamico.get(campo.name)?.errors?.['required']) {
+              <ion-note color="danger" class="error-obligatorio">{{ campo.label }} es obligatorio.</ion-note>
+            }
+            @if (formularioDinamico.get(campo.name)?.errors?.['minlength']) {
+              <ion-note color="danger" class="error-obligatorio">
+                Mínimo {{ formularioDinamico.get(campo.name)?.errors?.['minlength']?.requiredLength }} caracteres.
+              </ion-note>
+            }
           }
         }
 
-        <!-- TODO TA05: "categoria" es opcional en el modelo -->
-        <ion-item>
-          <ion-label position="stacked">Categoría</ion-label>
-          <ion-input formControlName="categoria" placeholder="Ej: Frontend, Backend…"></ion-input>
-        </ion-item>
-
-        <!-- TODO TA05: type="submit" lanza (ngSubmit) del <form> -->
         <ion-button expand="block" type="submit" class="ion-margin-top">
           Añadir elemento
         </ion-button>
@@ -71,7 +64,7 @@
       </form>
     </ion-card-content>
   </ion-card>
-  <!-- ===== FIN formulario reactivo ========================================== -->
+  <!-- ===== FIN formulario dinámico ========================================== -->
 
   <hr class="separador" />
 
@@ -98,6 +91,6 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-title>Footer Tarea TA05 - Formularios Reactivos</ion-title>
+    <ion-title>Footer Tarea TA06 - Validaciones y Formulario Dinámico</ion-title>
   </ion-toolbar>
 </ion-footer>
