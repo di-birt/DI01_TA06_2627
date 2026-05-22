@@ -64,16 +64,27 @@
       </form>
     </ion-card-content>
   </ion-card>
-  <!-- ===== FIN formulario dinámico ========================================== -->
+
 
   <hr class="separador" />
 
+  <!-- TODO TA06 – Búsqueda reactiva con signal
+       "busqueda" es un signal<string>. Usamos [value] para leer su valor actual y
+       (ionInput) para actualizarlo con busqueda.set(). Cada vez que cambia,
+       el computed "elementosFiltrados" se recalcula automáticamente. -->
   <ion-item>
     <ion-input [value]="busqueda()" (ionInput)="busqueda.set($event.detail.value ?? '')" placeholder="Buscar elemento..."></ion-input>
   </ion-item>
 
+  <!-- TODO TA06 – Lista generada desde un computed signal
+       "elementosFiltrados" es computed<Elemento[]>(): se recalcula solo cuando
+       cambia "busqueda" o "elementos". El @for itera sobre su valor (llamada como función)
+       y usa track elemento.id para que Angular reutilice nodos del DOM eficientemente. -->
   <ion-list>
     @for (elemento of elementosFiltrados(); track elemento.id) {
+      <!-- TODO TA06 – Pipes declarativos en el template:
+           | titlecase  →  capitaliza la primera letra de cada palabra (Angular CommonModule)
+           | slice:0:60 →  recorta la descripción a 60 caracteres para mostrar un resumen -->
       <ion-item button="true" (click)="verDetalle(elemento)">
         <ion-label>
           <h2>{{ elemento.nombre | titlecase }}</h2>
@@ -83,6 +94,10 @@
     }
   </ion-list>
 
+  <!-- TODO TA06 – Botón deshabilitado con computed signal
+       "hayElementos" es computed<boolean>(): devuelve true si el array de elementos
+       tiene al menos un elemento. [disabled]="!hayElementos()" enlaza el estado del
+       botón al signal de forma reactiva, sin necesidad de variables booleanas extra. -->
   <ion-button expand="block" [disabled]="!hayElementos()" (click)="mostrarToast()">
     Mostrar mensaje
   </ion-button>
