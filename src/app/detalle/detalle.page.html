@@ -23,12 +23,12 @@
     <ion-list>
       <ion-item>
         <ion-label>
-          <h2>{{ elementoDetalle()!.nombre }}</h2>
+          <h2>{{ elementoDetalle()!.nombre | titlecase }}</h2>
           <p>{{ elementoDetalle()!.descripcion }}</p>
         </ion-label>
       </ion-item>
       <ion-item>
-        <ion-label>Categoría: {{ elementoDetalle()!.categoria }}</ion-label>
+        <ion-label>Categoría: {{ elementoDetalle()!.categoria | uppercase }}</ion-label>
       </ion-item>
     </ion-list>
   } @else {

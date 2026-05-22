@@ -76,8 +76,8 @@
     @for (elemento of elementosFiltrados(); track elemento.id) {
       <ion-item button="true" (click)="verDetalle(elemento)">
         <ion-label>
-          <h2>{{ elemento.nombre }}</h2>
-          <p>{{ elemento.descripcion }}</p>
+          <h2>{{ elemento.nombre | titlecase }}</h2>
+          <p>{{ elemento.descripcion | slice:0:60 }}{{ elemento.descripcion.length > 60 ? '...' : '' }}</p>
         </ion-label>
       </ion-item>
     }

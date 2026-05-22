@@ -5,6 +5,7 @@ import {
   IonHeader, IonToolbar, IonTitle, IonContent,
   IonButtons, IonBackButton, IonList, IonItem, IonLabel
 } from '@ionic/angular/standalone';
+import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { Elemento } from '../models/elemento.model';
 
 @Component({
@@ -13,7 +14,9 @@ import { Elemento } from '../models/elemento.model';
   styleUrls: ['detalle.page.scss'],
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent,
-    IonButtons, IonBackButton, IonList, IonItem, IonLabel
+    IonButtons, IonBackButton, IonList, IonItem, IonLabel,
+    // Pipes: TitleCasePipe capitaliza la primera letra de cada palabra; UpperCasePipe convierte a mayúsculas
+    TitleCasePipe, UpperCasePipe
   ],
 })
 export class DetallePage implements OnInit {

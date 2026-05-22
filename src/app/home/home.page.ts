@@ -11,6 +11,7 @@ import {
 // FormBuilder simplifica la creación de FormGroup con su método group().
 // ReactiveFormsModule habilita las directivas [formGroup] y formControlName en el HTML.
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TitleCasePipe, SlicePipe } from '@angular/common';
 import { Elemento } from '../models/elemento.model';
 
 @Component({
@@ -25,7 +26,9 @@ import { Elemento } from '../models/elemento.model';
     // IonNote: componente para mostrar mensajes de error bajo los campos del formulario
     IonNote,
     // TODO TA06 – Añadimos ReactiveFormsModule para habilitar [formGroup] y formControlName
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    // Pipes: TitleCasePipe capitaliza la primera letra de cada palabra; SlicePipe recorta cadenas
+    TitleCasePipe, SlicePipe
   ],
 })
 export class HomePage {
