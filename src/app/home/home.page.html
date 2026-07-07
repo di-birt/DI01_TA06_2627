@@ -30,7 +30,7 @@
     </ion-card-header>
 
     <ion-card-content>
-      <form [formGroup]="formularioDinamico" (ngSubmit)="onSubmitDinamico()">
+      <form [formGroup]="formularioDinamico" (ngSubmit)="agregarElemento()">
 
         <!-- TODO TA06: @for recorre "campos" y genera un ion-item por cada entrada.
              track campo.name garantiza la eficiencia en el renderizado. -->
@@ -44,7 +44,8 @@
             </ion-input>
           </ion-item>
 
-          <!-- Errores genéricos para cada campo: sirven para cualquier campo del array -->
+          <!-- Errores genéricos para cada campo: sirven para cualquier campo del array.
+               Si añadimos un Validator más al TS, habrá que añadir otro @if para esa validación -->
           @if (formularioDinamico.get(campo.name)?.invalid && formularioDinamico.get(campo.name)?.touched) {
             @if (formularioDinamico.get(campo.name)?.errors?.['required']) {
               <ion-note color="danger" class="error-obligatorio">{{ campo.label }} es obligatorio.</ion-note>

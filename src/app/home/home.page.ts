@@ -94,46 +94,6 @@ export class HomePage {
     this.inicializarFormDinamico();
   }
 
-  // TODO TA05 – Leer los valores del formulario con .value y añadir el nuevo elemento al signal.
-  // elements.update() recibe la lista actual y devuelve una nueva lista con el elemento añadido.
-  // Al final reseteamos el formulario con .reset() para dejarlo vacío.
-  agregarElemento(): void {
-    // Si el formulario no es válido, marcamos todos los campos como tocados
-    // para que Angular muestre los errores en el HTML y salimos.
-    if (this.formularioElemento.invalid) {
-      this.formularioElemento.markAllAsTouched();
-      return;
-    }
-
-    //TODO: Recogemos como {nombre, descripcion, categoria} los valores que vienen desde el formulario formGroup
-    const { nombre, descripcion, categoria } = this.formularioElemento.value;
-    //const nombre = this.formularioElemento.value.nombre;
-    //const descripcion = this.formularioElemento.value.descripcion;
-    //const categoria = this.formularioElemento.value.categoria;
-
-    // Guardamos sin espacios en blanco innecesarios (quitamos con trim los espacios anteriores y posteriores)
-    // Si algún valor es null o undefined, lo manejamos con ?? para ponerlo a ''
-    const nombreLimpio = nombre?.trim() ?? '';
-    const descripcionLimpia = descripcion?.trim() ?? '';
-    const categoriaLimpia = categoria?.trim() || undefined;
-
-    const nuevoElemento: Elemento = {
-      // Para el campo id hacemos Date.now() para generar un id único basado en el timestamp actual
-      id:          Date.now(),
-      nombre:      nombreLimpio,
-      descripcion: descripcionLimpia,
-      categoria:   categoriaLimpia
-    };
-
-    // TODO TA05 – signal.update() permite modificar el array sin perder la reactividad.
-    // Devolvemos un nuevo array con spread (...) para no mutar el original.
-    this.elementos.update(lista => [...lista, nuevoElemento]);
-
-    // Limpiamos el formulario tras añadir el elemento
-    this.formularioElemento.reset();
-  }
-
-
   verDetalle(elementoHome: Elemento): void {
     this.router.navigate(['/detalle'], { state: { elementoHome } });
   }
@@ -158,7 +118,7 @@ export class HomePage {
   }
 
   // TODO TA06 – Envío del formulario dinámico: añade el elemento al signal igual que el estático.
-  async onSubmitDinamico(): Promise<void> {
+  async agregarElemento(): Promise<void> {
     if (this.formularioDinamico.invalid) {
       this.formularioDinamico.markAllAsTouched();
       return;
